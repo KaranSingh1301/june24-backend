@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cli-color": "^2.0.4",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
