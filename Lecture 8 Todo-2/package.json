@@ -13,9 +13,11 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cli-color": "^2.0.4",
+    "connect-mongodb-session": "^5.0.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-session": "^1.18.0",
     "mongoose": "^8.4.1",
     "nodemon": "^3.1.3"
   }

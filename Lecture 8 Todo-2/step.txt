@@ -9,10 +9,10 @@ Register Page : Done
 Login Page  : Done
 
 Register API : Done
-Login API
+Login API  : Done
 
-Session base auth
-middleware to protect the API's
+Session base auth : Done
+middleware to protect the API's : Done
 
 Dashboard Page
 logout
@@ -34,3 +34,7 @@ Pagination
 RateLimiting
 
 Email base Auth
+
+
+
+

@@ -3,14 +3,21 @@ require("dotenv").config();
 const clc = require("cli-color");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const session = require("express-session");
+const mongodbSession = require("connect-mongodb-session")(session);
 
 //file-imports
 const { userDataValidation, isEmailRgex } = require("./utils/authUtils");
 const userModel = require("./models/userModel");
+const isAuth = require("./middleware/authMiddleware");
 
 //constants
 const app = express();
 const PORT = process.env.PORT;
+const store = new mongodbSession({
+  uri: process.env.MONGO_URI,
+  collection: "sessions",
+});
 
 //db connection
 mongoose
@@ -24,6 +31,15 @@ mongoose
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true })); //body parser url encoded
 app.use(express.json()); //body parser json
+
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    store: store,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.get("/", (req, res) => {
   return res.send("Server is running");
@@ -73,10 +89,7 @@ app.post("/register", async (req, res) => {
     //  const userDb = await userModel.create({name, email, username, password});
 
     const userDb = await userObj.save();
-    return res.status(201).json({
-      message: "User register successfully",
-      data: userDb,
-    });
+    return res.redirect("/login");
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
@@ -118,15 +131,34 @@ app.post("/login", async (req, res) => {
 
     const isMatched = await bcrypt.compare(password, userDb.password);
 
-    console.log(isMatched);
     if (!isMatched) return res.status(400).json("Incorrect password");
 
-    return res.status(200).json("login successfull");
+    console.log(req.session);
+    req.session.isAuth = true;
+    req.session.user = {
+      userId: userDb._id,
+      username: userDb.username,
+      email: userDb.email,
+    };
+
+    return res.redirect("/dashboard");
   } catch (error) {
     return res.status(500).json(console.error());
   }
 
   //session base auth
+});
+
+app.get("/dashboard", isAuth, (req, res) => {
+  console.log("dashboard api");
+  return res.render("dashboardPage");
+});
+
+app.post("/logout", isAuth, (req, res) => {
+  req.session.destroy((err) => {
+    if (err) return res.status(500).json("Logout unsuccessfull");
+    return res.status(200).json("logout successful");
+  });
 });
 
 app.listen(PORT, () => {
