@@ -36,5 +36,10 @@ RateLimiting
 Email base Auth
 
 
+//create ejs page for home api, to redirect on register and login page
 
-
+//create Todo
+todo schema (todo, username) --> todoModel
+create api, POST /create-item
+data validation
+save it to DB
