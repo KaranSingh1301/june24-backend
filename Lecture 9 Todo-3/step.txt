@@ -1,0 +1,38 @@
+Todo APP
+
+setup express server : Done
+mongodb connection : Done
+
+set the view engine of express to EJS : Done
+
+Register Page : Done
+Login Page  : Done
+
+Register API : Done
+Login API  : Done
+
+Session base auth : Done
+middleware to protect the API's : Done
+
+Dashboard Page : Done
+logout : Done
+
+Todo API's
+create API : Done
+read API : Done
+edit API : Done
+delete API
+
+Dasboard Client (Axios)
+axios create API
+axios read API
+axios edit API
+axios delete API
+
+Pagination
+RateLimiting
+
+Email base Auth
+
+
+//create ejs page for home api, to redirect on register and login page
